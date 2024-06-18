@@ -8,16 +8,15 @@ import Header from "./components/Header1";
 
 export default function App() {
   return (
-  <BrowserRouter>
-    <Header />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/sign-in" element={<SignIn />} />
-      <Route path="/Sign-up" element={<SignUp />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/about" element={<About1/>} />
-    </Routes>
-  </BrowserRouter>
-  )
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/Sign-up" element={<SignUp />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/about" element={<About1 />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
