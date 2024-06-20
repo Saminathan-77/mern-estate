@@ -21,6 +21,7 @@ import {
   logOutUserSuccess,
 } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -186,6 +187,12 @@ export default function Profile() {
         >
           {loading ? "Loading..." : "Update"}
         </button>
+        <Link
+          className="text-green-600 text-whie uppercase text-center hover:opacity-95 p-3 rounded-lg"
+          to={"/create-listing"}
+        >
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span
