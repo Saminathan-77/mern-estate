@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Listingitem from "../components/Listingitem.jsx";
 
 export default function Search() {
+  const [showmore, setShowmore] = useState(false);
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: "",
@@ -17,7 +18,6 @@ export default function Search() {
 
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
-  const [showMore, setShowMore] = useState(false);
   console.log(listings);
 
   useEffect(() => {
@@ -52,10 +52,15 @@ export default function Search() {
 
     const fetchListings = async () => {
       setLoading(true);
-      setShowMore(false);
+      setShowmore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 8) {
+        setShowmore(true);
+      } else {
+        setShowmore(false);
+      }
       setListings(data);
       setLoading(false);
     };
@@ -105,6 +110,20 @@ export default function Search() {
     urlParams.set("order", sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+
+  const onShowmoreClick = async () => {
+    const numberOfListings = listings.length;
+    const urlParams = new URLSearchParams(location.search);
+    const startIndex = numberOfListings;
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 9) {
+      setShowmore(false);
+    }
+    setListings([...listings, ...data]);
   };
 
   return (
@@ -220,6 +239,14 @@ export default function Search() {
               <Listingitem key={listing._id} listing={listing} />
             ))}
         </div>
+        {showmore && (
+          <button
+            className="text-green-600 hover:underline p-7 font-semibold"
+            onClick={() => onShowmoreClick()}
+          >
+            Show more
+          </button>
+        )}
       </div>
     </div>
   );
